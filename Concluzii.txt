@@ -1,0 +1,29 @@
+    Lungime Text        |    Chi-Squared            |     Euclidean               |    Cosine
+Scurt (10-20 car.)      |   Scăzută (~30%)          |   Foarte Scăzută (~20%)     |  Scăzută (~25%)
+Lung (200+ car.)        |   Excelentă (>95%)        |   Foarte Bună (>90%)        |  Excelentă (>95%)
+
+Toate cele 3 metode au rezultate excelente pe texte de lungime medie și lungă, rezultatele putând să varieze daca apar
+unele anomalii  precum evitarea numitor litere importante sau textele repetitive. Aceaste metode ponderează diferențele
+în funcție de frecvența așteptată. Sunt foarte sensibile la abaterile literelor care ar trebui să fie comune (E, T, A).
+
+Daca avem texte care sunt scrise intentionat fara anumite litere importante(de exemplu fara litera E) exista o sansa foarte
+ridicata ca raspunsul dat sa fie unul greșit, deoarece codul va interpreta la un anumit shift, litere cu frecventă maximă
+ca fiind E/A/T, astfe rezultatul putând fi interpretat în alt mod decat cel așteptat.
+
+Am identificat 4 cazuri in care decoderul alege variante greșite ale shiftului:
+1.Lungimea foarte scăzută a textului.
+2.Evitarea intenționata  a literelor comune sau folosirea excesiva a literelor rare.
+3.Literele E, T, A, O, I, N au toate frecvențe relativ apropiate.
+4.Textele repetitive, care folosesc aceleași cuvinte de foarte multe ori.
+
+Text: Go to my gym.
+Shift: 5
+Rezultat Program: Greșit (Shift 11 pentru Cosine si Euclidian si Shift 0 pentru Chi-squared)
+Explicație: Textul are doar 10 litere. Literele Y, M, O si G apar de 2 ori (22,22% fiecare). Programul "crede" că 'Y'(spre exemplu,
+dar poate sa fie si G, M sau O) (care e foarte frecvent aici) trebuie să fie 'E'. Astfel, aplică un shift care să
+transforme 'Y' în 'E', rezultând un text fără sens.
+
+Text:Artificial intelligence is transforming the way we work and live every day
+Shift: 13
+Rezultat Program: Corect
+Explicație:Deși mai scurt, prezența vocalelor 'A', 'I', 'E' a oferit destule puncte de ancoră pentru a oferi un raspuns corect.
